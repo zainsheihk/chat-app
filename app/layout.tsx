@@ -3,6 +3,8 @@ import "../styles/globals.css";
 import { ThemeProvider, button } from "@/libraries/material-tailwind";
 import { Poppins } from "next/font/google";
 import Header from "@/components/header";
+import { StateProvider } from "@/context/stateContext";
+import reducer, { initialState } from "@/context/stateReducers";
 
 export const metadata: Metadata = {
   title: "Chat app",
@@ -21,8 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={[poppins.variable].join(" ")}>
-        <Header />
-        {children}
+        <StateProvider reducer={reducer} initialState={initialState}>
+          <Header />
+          {children}
+        </StateProvider>
       </body>
     </html>
   );
