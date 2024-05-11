@@ -1,3 +1,4 @@
+import { MenuHandler } from "@/libraries/material-tailwind";
 // material-tailwind.d.ts
 import {} from "@material-tailwind/react";
 
@@ -17,6 +18,24 @@ declare module "@material-tailwind/react" {
     placeholder?: unknown;
   }
   export interface TypographyProps extends EventCapture {
+    placeholder?: unknown;
+  }
+  export interface MenuListProps extends EventCapture {
+    placeholder?: unknown;
+  }
+  export interface MenuItemProps extends EventCapture {
+    placeholder?: unknown;
+  }
+  export interface DialogHeaderProps extends EventCapture {
+    placeholder?: unknown;
+  }
+  export interface DialogBodyProps extends EventCapture {
+    placeholder?: unknown;
+  }
+  export interface DialogFooterProps extends EventCapture {
+    placeholder?: unknown;
+  }
+  export interface DialogProps extends EventCapture {
     placeholder?: unknown;
   }
   // more...
