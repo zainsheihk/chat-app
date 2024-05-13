@@ -15,21 +15,25 @@ export default function Home() {
   const router = useRouter();
   const [{}, dispatch] = useStateProvider();
   const handleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    const {
-      user: { displayName: name, email, photoURL: displayImage },
-    } = await signInWithPopup(auth, provider);
-    const { data } = await apiService.post("/api/auth/check-user", { email });
-    if (!data.status) {
-      dispatch({
-        type: REDUCER_CASES.SET_NEW_USER,
-        newUser: true,
-      });
-      dispatch({
-        type: REDUCER_CASES.SET_USER_INFO,
-        userInfo: { name, email, displayImage, status: "" },
-      });
-      router.push("/sign-up");
+    try {
+      const provider = new GoogleAuthProvider();
+      const {
+        user: { displayName: name, email, photoURL: displayImage },
+      } = await signInWithPopup(auth, provider);
+      const { data } = await apiService.post("/api/auth/check-user", { email });
+      if (!data.status) {
+        dispatch({
+          type: REDUCER_CASES.SET_NEW_USER,
+          newUser: true,
+        });
+        dispatch({
+          type: REDUCER_CASES.SET_USER_INFO,
+          userInfo: { name, email, displayImage, status: "" },
+        });
+        router.push("/sign-up");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   return (

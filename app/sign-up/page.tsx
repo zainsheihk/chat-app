@@ -5,24 +5,22 @@ import { Button, Input, Typography } from "@/libraries/material-tailwind";
 import { useStateProvider } from "@/context/stateContext";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import Avatar from "@/components/avatar";
+import { UserType, userSchema } from "@/utils/validation.schema";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 function SignUp() {
   const [{ userInfo }] = useStateProvider();
-  const methods = useForm<{
-    name: string;
-    about: string;
-    displayImage: string;
-  }>({
+  const methods = useForm({
     defaultValues: userInfo,
+    resolver: yupResolver(userSchema),
   });
   const {
     register,
-    control,
     handleSubmit,
-    formState: { isSubmitSuccessful },
+    formState: { isSubmitSuccessful, errors },
   } = methods;
 
-  const onSubmit = (values: {}) => {
+  const onSubmit = (values: UserType) => {
     console.log(values, "values");
   };
   return (
@@ -62,6 +60,7 @@ function SignUp() {
                 labelProps={{
                   className: "font-body capitalize",
                 }}
+                error={!!errors["name"]?.message}
               />
               <Input
                 label="About"
@@ -69,6 +68,7 @@ function SignUp() {
                 labelProps={{
                   className: "font-body capitalize",
                 }}
+                error={!!errors["about"]?.message}
               />
               <Button
                 size="lg"

@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import profile from "@/public/profile.png";
 import Image from "next/image";
-import { Icon } from "@iconify-icon/react";
 import {
   Menu,
   MenuHandler,
@@ -14,13 +13,13 @@ import TakePhoto from "./takePhoto";
 import LibraryPhoto from "./libraryPhoto";
 
 function Avatar() {
-  const { setValue, getValues } = useFormContext();
-  const value = useWatch({ name: "displayImage" });
+  const { setValue, getValues, formState } = useFormContext();
+  const value = useWatch({ name: "profileImage" });
+  const { errors } = formState;
 
   const fileRef = useRef<HTMLInputElement>(null);
   const [photoLibraryIsOpen, setPhotoLibraryIsOpen] = useState(false);
   const [takePhotoIsOpen, setTakePhotoIsOpen] = useState(false);
-
   const handleUploadPhoto = () => {
     fileRef.current?.click();
   };
@@ -36,23 +35,23 @@ function Avatar() {
     const file = input.files[0];
   };
   const handleLibraryPhoto = (url: string) => {
-    setValue("displayImage", url);
+    setValue("profileImage", url);
     setPhotoLibraryIsOpen(!photoLibraryIsOpen);
   };
   const handleLibrary = () => setPhotoLibraryIsOpen(!photoLibraryIsOpen);
 
   const handleRemovePhoto = () => {
-    setValue("displayImage", "");
+    setValue("profileImage", "");
   };
 
   const handleTakePhoto = () => {
     setTakePhotoIsOpen(!takePhotoIsOpen);
   };
   const handleCapturePhoto = (image: any) => {
-    setValue("displayImage", image);
+    setValue("profileImage", image);
     setTakePhotoIsOpen(false);
   };
-  const displayImage = getValues("displayImage");
+  const profileImage = getValues("profileImage");
   return (
     <>
       <Menu
@@ -61,13 +60,19 @@ function Avatar() {
         {...value}
       >
         <MenuHandler>
-          <div className="flex justify-center mb-5 relative  mx-auto  bg-[#ccc] [&_div]:hover:visible cursor-pointer overflow-hidden rounded-full w-[140px] h-[140px]">
-            {displayImage ? (
-              <img src={displayImage} alt="" className=" w-full object-fill" />
+          <div
+            className={`flex justify-center mb-5 relative  mx-auto  bg-[#ccc] [&_div]:hover:visible cursor-pointer overflow-hidden rounded-full w-[140px] h-[140px] border-[2px] ${
+              !!errors["profileImage"]?.message
+                ? "border-red-900"
+                : "border-white"
+            }`}
+          >
+            {profileImage ? (
+              <img src={profileImage} alt="" className=" w-full object-fill" />
             ) : (
               <Image src={profile} alt="" className=" w-full object-cover" />
             )}
-            <div
+            {/* <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-60 w-[98%] h-[98%] 
           rounded-full flex justify-center items-center flex-col invisible transition-all"
             >
@@ -76,16 +81,16 @@ function Avatar() {
                 className="text-[30px] text-[#fff]"
               />
               <p className="font-body text-[12px] text-[#fff]">Change photo</p>
-            </div>
-            <label htmlFor="displayImage" className="hidden">
-              displayImage
+            </div> */}
+            <label htmlFor="profileImage" className="hidden">
+              profileImage
             </label>
             <input
               onChange={handleChangePhoto}
               ref={fileRef}
-              id="displayImage"
+              id="profileImage"
               type="file"
-              name="displayImage"
+              name="profileImage"
               className="hidden"
               placeholder=""
             />
