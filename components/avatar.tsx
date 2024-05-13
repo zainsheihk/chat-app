@@ -7,13 +7,11 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-  Dialog,
-  DialogHeader,
-  DialogBody,
 } from "@/libraries/material-tailwind";
 
 import { useFormContext, useWatch } from "react-hook-form";
-import { JOESCH_CHARACTERS } from "@/utils/constant";
+import TakePhoto from "./takePhoto";
+import LibraryPhoto from "./libraryPhoto";
 
 function Avatar() {
   const { setValue, getValues } = useFormContext();
@@ -21,6 +19,7 @@ function Avatar() {
 
   const fileRef = useRef<HTMLInputElement>(null);
   const [photoLibraryIsOpen, setPhotoLibraryIsOpen] = useState(false);
+  const [takePhotoIsOpen, setTakePhotoIsOpen] = useState(false);
 
   const handleUploadPhoto = () => {
     fileRef.current?.click();
@@ -36,12 +35,22 @@ function Avatar() {
     }
     const file = input.files[0];
   };
-  const handleLibrary = (url: string) => {
+  const handleLibraryPhoto = (url: string) => {
     setValue("displayImage", url);
     setPhotoLibraryIsOpen(!photoLibraryIsOpen);
   };
+  const handleLibrary = () => setPhotoLibraryIsOpen(!photoLibraryIsOpen);
+
   const handleRemovePhoto = () => {
-    setValue("displayImage", "", {});
+    setValue("displayImage", "");
+  };
+
+  const handleTakePhoto = () => {
+    setTakePhotoIsOpen(!takePhotoIsOpen);
+  };
+  const handleCapturePhoto = (image: any) => {
+    setValue("displayImage", image);
+    setTakePhotoIsOpen(false);
   };
   const displayImage = getValues("displayImage");
   return (
@@ -52,19 +61,11 @@ function Avatar() {
         {...value}
       >
         <MenuHandler>
-          <div className="flex justify-center mb-5 relative w-fit mx-auto  bg-[#ccc] [&_div]:hover:visible cursor-pointer overflow-hidden rounded-full">
+          <div className="flex justify-center mb-5 relative  mx-auto  bg-[#ccc] [&_div]:hover:visible cursor-pointer overflow-hidden rounded-full w-[140px] h-[140px]">
             {displayImage ? (
-              <img
-                src={displayImage}
-                alt=""
-                className="brightness-[1.5] w-[140px] h-[140px]"
-              />
+              <img src={displayImage} alt="" className=" w-full object-fill" />
             ) : (
-              <Image
-                src={profile}
-                alt=""
-                className="brightness-[1.5] w-[140px] h-[140px]"
-              />
+              <Image src={profile} alt="" className=" w-full object-cover" />
             )}
             <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-60 w-[98%] h-[98%] 
@@ -92,40 +93,22 @@ function Avatar() {
         </MenuHandler>
 
         <MenuList>
-          <MenuItem>Take Photo</MenuItem>
-          <MenuItem onClick={() => setPhotoLibraryIsOpen(!photoLibraryIsOpen)}>
-            Choose From Library
-          </MenuItem>
+          <MenuItem onClick={handleTakePhoto}>Take Photo</MenuItem>
+          <MenuItem onClick={handleLibrary}>Choose From Library</MenuItem>
           <MenuItem onClick={handleUploadPhoto}>Upload Photo</MenuItem>
           <MenuItem onClick={handleRemovePhoto}>Remove Photo</MenuItem>
         </MenuList>
       </Menu>
-      <Dialog
-        size="sm"
-        open={photoLibraryIsOpen}
-        handler={() => setPhotoLibraryIsOpen(!photoLibraryIsOpen)}
-      >
-        <DialogHeader>Select an image to add to profile.</DialogHeader>
-        <DialogBody>
-          <div className="grid grid-cols-3 gap-y-4 items-center	">
-            {JOESCH_CHARACTERS.map((item, key) => (
-              <div
-                key={key}
-                className="w-28 h-28 bg-[#ccc] mx-auto rounded-full overflow-hidden cursor-pointer"
-                onClick={() =>
-                  handleLibrary(`https://joesch.moe/api/v1/${item}`)
-                }
-              >
-                <img
-                  className="block w-full  h-full object-cover"
-                  src={`https://joesch.moe/api/v1/${item}`}
-                  alt="avatar"
-                />
-              </div>
-            ))}
-          </div>
-        </DialogBody>
-      </Dialog>
+      <LibraryPhoto
+        isOpen={photoLibraryIsOpen}
+        onLibraryPhoto={handleLibraryPhoto}
+        onHandler={handleLibrary}
+      />
+      <TakePhoto
+        isOpen={takePhotoIsOpen}
+        onHandler={handleTakePhoto}
+        onImageCapture={handleCapturePhoto}
+      />
     </>
   );
 }
