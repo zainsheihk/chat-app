@@ -7,6 +7,9 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import Avatar from "@/components/avatar";
 import { UserType, userSchema } from "@/utils/validation.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
+import apiService from "@/service";
+import { REDUCER_CASES } from "@/utils/constant";
+import { useRouter } from "next/navigation";
 
 function SignUp() {
   const [{ userInfo }] = useStateProvider();
@@ -19,9 +22,28 @@ function SignUp() {
     handleSubmit,
     formState: { isSubmitSuccessful, errors },
   } = methods;
+  const [{}, dispatch] = useStateProvider();
+  const router = useRouter();
 
-  const onSubmit = (values: UserType) => {
-    console.log(values, "values");
+  const onSubmit = async (values: UserType) => {
+    try {
+      const { data } = await apiService.post("/api/auth/create-user", {
+        ...values,
+      });
+      if (data.status) {
+        dispatch({
+          type: REDUCER_CASES.SET_NEW_USER,
+          newUser: false,
+        });
+        dispatch({
+          type: REDUCER_CASES.SET_USER_INFO,
+          userInfo: { ...data },
+        });
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <main
@@ -61,6 +83,17 @@ function SignUp() {
                   className: "font-body capitalize",
                 }}
                 error={!!errors["name"]?.message}
+              />
+              <Input
+                label="email"
+                {...register("email")}
+                containerProps={{
+                  className: "mb-3",
+                }}
+                labelProps={{
+                  className: "font-body capitalize",
+                }}
+                error={!!errors["email"]?.message}
               />
               <Input
                 label="About"

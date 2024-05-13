@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
-import profile from "@/public/profile.png";
-import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
+import { Icon } from "@iconify/react";
 import {
   Menu,
   MenuHandler,
@@ -13,7 +12,7 @@ import TakePhoto from "./takePhoto";
 import LibraryPhoto from "./libraryPhoto";
 
 function Avatar() {
-  const { setValue, getValues, formState } = useFormContext();
+  const { setValue, getValues, formState, trigger } = useFormContext();
   const value = useWatch({ name: "profileImage" });
   const { errors } = formState;
 
@@ -33,7 +32,23 @@ function Avatar() {
       return;
     }
     const file = input.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setValue("profileImage", reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log("Error: ", error);
+    };
   };
+  useEffect(() => {
+    if (value) {
+      trigger("profileImage", {
+        shouldFocus: true,
+      });
+    }
+  }, [value]);
+
   const handleLibraryPhoto = (url: string) => {
     setValue("profileImage", url);
     setPhotoLibraryIsOpen(!photoLibraryIsOpen);
@@ -60,40 +75,54 @@ function Avatar() {
         {...value}
       >
         <MenuHandler>
-          <div
-            className={`flex justify-center mb-5 relative  mx-auto  bg-[#ccc] [&_div]:hover:visible cursor-pointer overflow-hidden rounded-full w-[140px] h-[140px] border-[2px] ${
-              !!errors["profileImage"]?.message
-                ? "border-red-900"
-                : "border-white"
-            }`}
-          >
-            {profileImage ? (
-              <img src={profileImage} alt="" className=" w-full object-fill" />
-            ) : (
-              <Image src={profile} alt="" className=" w-full object-cover" />
-            )}
-            {/* <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-60 w-[98%] h-[98%] 
-          rounded-full flex justify-center items-center flex-col invisible transition-all"
+          <div className="relative w-fit mx-auto">
+            <div
+              className={`flex justify-center mb-10 relative  mx-auto  bg-[#bddbf7] [&_div]:hover:opacity-100 cursor-pointer overflow-hidden rounded-full w-[140px] h-[140px] border-[2px] items-center `}
             >
-              <Icon
-                icon="ph:camera-light"
-                className="text-[30px] text-[#fff]"
+              {profileImage ? (
+                <img
+                  src={profileImage}
+                  alt=""
+                  className=" w-full object-fill"
+                />
+              ) : (
+                <Icon
+                  icon="iconamoon:profile-light"
+                  className="text-[100px]  text-primary"
+                />
+              )}
+
+              <div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-60 w-[100%] h-[100%] 
+          rounded-full flex justify-center items-center flex-col opacity-0 transition-all duration-300 "
+              >
+                <Icon
+                  icon="ph:camera-light"
+                  className="text-[30px] text-[#fff]"
+                />
+                <p className="font-body text-[12px] text-[#fff]">
+                  Change photo
+                </p>
+              </div>
+
+              <label htmlFor="profileImage" className="hidden">
+                profileImage
+              </label>
+              <input
+                onChange={handleChangePhoto}
+                ref={fileRef}
+                id="profileImage"
+                type="file"
+                name="profileImage"
+                className="hidden"
+                placeholder=""
               />
-              <p className="font-body text-[12px] text-[#fff]">Change photo</p>
-            </div> */}
-            <label htmlFor="profileImage" className="hidden">
-              profileImage
-            </label>
-            <input
-              onChange={handleChangePhoto}
-              ref={fileRef}
-              id="profileImage"
-              type="file"
-              name="profileImage"
-              className="hidden"
-              placeholder=""
-            />
+            </div>
+            {!!errors["profileImage"]?.message && (
+              <p className="font-body text-[12px] text-red-600 absolute -bottom-5 text-center w-full whitespace-nowrap">
+                Profile Image is Required
+              </p>
+            )}
           </div>
         </MenuHandler>
 
