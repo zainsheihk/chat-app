@@ -8,7 +8,7 @@ function ListHeader() {
   const [{ userInfo }] = useStateProvider();
 
   return (
-    <div className="bg-[#0b0854] px-5 py-3 flex justify-between items-center ">
+    <div className="bg-primary px-5 py-3 flex justify-between items-center ">
       <Avatar
         size="sm"
         src={userInfo?.profileImage ?? ""}

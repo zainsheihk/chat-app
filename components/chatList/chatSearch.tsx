@@ -15,7 +15,7 @@ function ChatSearch() {
         }
         containerProps={{
           className:
-            "[&_input]:border-none [&_input]:px-5 [&_input]:bg-white [&_input]:rounded-full ",
+            "[&_input]:border-none [&_input]:px-5 [&_input]:py-3 h-auto  [&_input]:bg-white [&_input]:rounded-full ",
         }}
         labelProps={{
           className: "hidden",

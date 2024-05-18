@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import loginImage from "@/public/21437-scaled-1.jpg";
+import loginImage from "@/public/155547155_l_normal_none-e86c9fa6-1920w.webp";
 import { Button, Input, Typography } from "@/libraries/material-tailwind";
 import { useStateProvider } from "@/context/stateContext";
 import { Controller, FormProvider, useForm } from "react-hook-form";

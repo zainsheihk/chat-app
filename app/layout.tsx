@@ -6,7 +6,7 @@ import { StateProvider } from "@/context/stateContext";
 import reducer, { initialState } from "@/context/stateReducers";
 
 export const metadata: Metadata = {
-  title: "Chat app",
+  title: "Chat Mate",
   description: "Chat app",
 };
 const poppins = Poppins({

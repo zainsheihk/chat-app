@@ -9,7 +9,7 @@ function Header() {
         <Link href={""} className="flex gap-2 w-fit">
           <Image src={logo} alt="logo" className="w-10" />
           <span className="font-body font-semibold tracking-tighter text-primary text-[24px]">
-            Chat App
+            Chat Mate
           </span>
         </Link>
       </div>

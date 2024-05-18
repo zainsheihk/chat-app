@@ -1,4 +1,5 @@
 "use client";
+import Chat from "@/components/chat";
 import ChatList from "@/components/chatList";
 import { useStateProvider } from "@/context/stateContext";
 import apiService from "@/service";
@@ -30,8 +31,9 @@ function Page() {
   };
 
   return (
-    <div>
+    <div className="flex ">
       <ChatList />
+      <Chat />
     </div>
   );
 }
