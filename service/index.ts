@@ -1,6 +1,7 @@
 import { BASE_API_URL } from "@/utils/constant";
 import axios from "axios";
-import { getCookie } from "cookies-next";
+import { getCookie, hasCookie } from "cookies-next";
+import toastr from "toastr";
 
 const apiService = axios.create({
   baseURL: BASE_API_URL,
@@ -9,7 +10,8 @@ const apiService = axios.create({
 
 apiService.interceptors.request.use(
   (config) => {
-    config.headers["Authorization"] = `${getCookie("token")}`;
+    if (hasCookie("token"))
+      config.headers["Authorization"] = `${getCookie("token")}`;
     return config;
   },
   (error) => {
@@ -24,7 +26,7 @@ apiService.interceptors.response.use(
   function (error) {
     const status = error.response.status;
     if (status >= 400 && status <= 500) {
-      alert(error.response.data.message);
+      toastr.error(error.response.data.message);
     }
     return Promise.reject(error);
   }

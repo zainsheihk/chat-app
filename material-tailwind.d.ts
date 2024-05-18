@@ -1,4 +1,4 @@
-import { MenuHandler } from "@/libraries/material-tailwind";
+// import { MenuHandler, Avatar } from "@/libraries/material-tailwind";
 // material-tailwind.d.ts
 import {} from "@material-tailwind/react";
 
@@ -38,5 +38,7 @@ declare module "@material-tailwind/react" {
   export interface DialogProps extends EventCapture {
     placeholder?: unknown;
   }
-  // more...
+  export interface Avatar extends EventCapture {
+    placeholder?: unknown;
+  }
 }

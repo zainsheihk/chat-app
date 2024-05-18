@@ -1,4 +1,5 @@
 "use client";
+import ChatList from "@/components/chatList";
 import { useStateProvider } from "@/context/stateContext";
 import apiService from "@/service";
 import { REDUCER_CASES } from "@/utils/constant";
@@ -28,7 +29,11 @@ function Page() {
     }
   };
 
-  return <div>Page{JSON.stringify(userInfo)}</div>;
+  return (
+    <div>
+      <ChatList />
+    </div>
+  );
 }
 
 export default Page;

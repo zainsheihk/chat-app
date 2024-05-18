@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
-import { ThemeProvider, button } from "@/libraries/material-tailwind";
+import "toastr/build/toastr.css";
 import { Poppins } from "next/font/google";
-import Header from "@/components/header";
 import { StateProvider } from "@/context/stateContext";
 import reducer, { initialState } from "@/context/stateReducers";
 
