@@ -4,7 +4,6 @@ import { REDUCER_CASES } from "@/utils/constant";
 
 export const initialState = {
   userInfo: undefined,
-  newUser: false,
 };
 
 const reducer = (state: any, action: any) => {
@@ -14,11 +13,7 @@ const reducer = (state: any, action: any) => {
         ...state,
         userInfo: action.userInfo,
       };
-    case REDUCER_CASES.SET_NEW_USER:
-      return {
-        ...state,
-        newUser: action.newUser,
-      };
+
     default:
       return state;
   }

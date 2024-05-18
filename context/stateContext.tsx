@@ -11,10 +11,12 @@ export const StateProvider = ({
   initialState: any;
   reducer: any;
   children: ReactNode[];
-}) => (
-  <stateContext.Provider value={useReducer(reducer, initialState)}>
-    {children}
-  </stateContext.Provider>
-);
+}) => {
+  return (
+    <stateContext.Provider value={useReducer(reducer, initialState)}>
+      {children}
+    </stateContext.Provider>
+  );
+};
 
 export const useStateProvider = () => useContext(stateContext);

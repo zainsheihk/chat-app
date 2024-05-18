@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useStateProvider } from "@/context/stateContext";
 import { REDUCER_CASES } from "@/utils/constant";
+import { setCookie } from "cookies-next";
 
 export default function SignIn() {
   const router = useRouter();
@@ -23,14 +24,22 @@ export default function SignIn() {
       const { data } = await apiService.post("/api/auth/check-user", { email });
       if (!data.status) {
         dispatch({
-          type: REDUCER_CASES.SET_NEW_USER,
-          newUser: true,
-        });
-        dispatch({
           type: REDUCER_CASES.SET_USER_INFO,
           userInfo: { name, email, profileImage, about: "" },
         });
         router.push("/sign-up");
+      } else {
+        const { user, token } = data.data;
+        setCookie("token", token, {
+          path: "/",
+          domain: ".localhost",
+          maxAge: 3600,
+        });
+        dispatch({
+          type: REDUCER_CASES.SET_USER_INFO,
+          userInfo: { ...user },
+        });
+        router.push("/");
       }
     } catch (error) {
       console.log(error);
@@ -69,16 +78,6 @@ export default function SignIn() {
               />
               sign in with google
             </Button>
-            <Typography
-              variant="small"
-              color="gray"
-              className="mt-4 text-center font-normal"
-            >
-              Not registered?{" "}
-              <Link href="/sign-up" className="font-medium text-text-color">
-                Create account
-              </Link>
-            </Typography>
           </form>
         </div>
       </div>

@@ -84,7 +84,7 @@ function SignUp() {
                 }}
                 error={!!errors["name"]?.message}
               />
-              <Input
+              {/* <Input
                 label="email"
                 {...register("email")}
                 containerProps={{
@@ -94,7 +94,7 @@ function SignUp() {
                   className: "font-body capitalize",
                 }}
                 error={!!errors["email"]?.message}
-              />
+              /> */}
               <Input
                 label="About"
                 {...register("about")}

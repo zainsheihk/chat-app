@@ -46,7 +46,7 @@ function Avatar() {
       trigger("profileImage", {
         shouldFocus: true,
       });
-    }
+    } 
   }, [value]);
 
   const handleLibraryPhoto = (url: string) => {

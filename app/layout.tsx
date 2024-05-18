@@ -24,7 +24,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={[poppins.variable].join(" ")}>
         <StateProvider reducer={reducer} initialState={initialState}>
-          <Header />
           {children}
         </StateProvider>
       </body>
