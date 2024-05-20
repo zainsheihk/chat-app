@@ -32,14 +32,10 @@ function SignUp() {
       });
       if (data.status) {
         dispatch({
-          type: REDUCER_CASES.SET_NEW_USER,
-          newUser: false,
-        });
-        dispatch({
           type: REDUCER_CASES.SET_USER_INFO,
           userInfo: { ...data },
         });
-        router.push("/");
+        router.push("/sign-in");
       }
     } catch (error) {
       console.log(error);

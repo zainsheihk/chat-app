@@ -20,7 +20,11 @@ const config: Config = withMT({
       serif: ["var(--font-poppins)", "sans-serif"],
       body: ["var(--font-poppins)", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "chat-bg": "url('/08.jpg')",
+      },
+    },
   },
   plugins: [],
 });

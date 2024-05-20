@@ -1,18 +1,18 @@
 "use client";
 import Chat from "@/components/chat";
 import ChatList from "@/components/chatList";
+import Contact from "@/components/contact";
 import { useStateProvider } from "@/context/stateContext";
 import apiService from "@/service";
 import { REDUCER_CASES } from "@/utils/constant";
 import React, { useEffect, useState } from "react";
 
 function Page() {
-  const [{ userInfo }, dispatch] = useStateProvider();
+  const [{ userInfo, isContactDrawerOpen }, dispatch] = useStateProvider();
   const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
     if (isMounted && !userInfo) {
-      LoggedInUser();
+      loggedInUser();
     }
   }, [isMounted]);
 
@@ -20,8 +20,8 @@ function Page() {
     setIsMounted(true);
   }, []);
 
-  const LoggedInUser = async () => {
-    const { data } = await apiService.get("/api/auth/get-user");
+  const loggedInUser = async () => {
+    const { data } = await apiService.get("/api/user/get-user");
     if (data?.status) {
       dispatch({
         type: REDUCER_CASES.SET_USER_INFO,
@@ -31,8 +31,9 @@ function Page() {
   };
 
   return (
-    <div className="flex ">
-      <ChatList />
+    <div className="flex">
+      {isContactDrawerOpen ? <Contact /> : <ChatList />}
+
       <Chat />
     </div>
   );
