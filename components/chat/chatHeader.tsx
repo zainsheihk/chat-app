@@ -1,24 +1,29 @@
+import { useStateProvider } from "@/context/stateContext";
 import { Avatar, Typography } from "@/libraries/material-tailwind";
 import { Icon } from "@iconify-icon/react";
 import React from "react";
 
 function ChatHeader() {
+  const [{ currentChatUser }] = useStateProvider();
+  const { profileImage, name, about, id } = currentChatUser;
+
   return (
     <div className="bg-primary px-5 py-3 flex justify-between items-center  ">
       <div className="flex items-center gap-4">
         <Avatar
           size="sm"
-          src={
-            "https://lh3.googleusercontent.com/a/ACg8ocLlTUcRA39d3zF0hgdxVwwjYXsCcuafTzXhqopPp3UEiHU5kQgr=s96-c"
-          }
+          src={profileImage}
           alt="avatar"
           placeholder={""}
           onPointerEnterCapture={""}
           onPointerLeaveCapture={""}
         />
         <div>
-          <Typography variant="h6" className="text-[16px] text-[#FFF]">
-            Tania Andrew
+          <Typography
+            variant="h6"
+            className="text-[16px] text-[#FFF] capitalize"
+          >
+            {name}
           </Typography>
           <Typography variant="small" className="text-[12px] text-[#FFF]">
             Online / Offline

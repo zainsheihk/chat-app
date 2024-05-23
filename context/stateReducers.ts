@@ -4,6 +4,7 @@ import { REDUCER_CASES } from "@/utils/constant";
 
 export const initialState = {
   userInfo: undefined,
+  currentChatUser: undefined,
   isContactDrawerOpen: false,
 };
 
@@ -18,6 +19,11 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         isContactDrawerOpen: action.isOpen,
+      };
+    case REDUCER_CASES.SET_CURRENT_CHAT_USER:
+      return {
+        ...state,
+        currentChatUser: action.user,
       };
 
     default:

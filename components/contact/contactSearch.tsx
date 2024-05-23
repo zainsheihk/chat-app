@@ -2,10 +2,11 @@ import { Input } from "@material-tailwind/react";
 import React from "react";
 import { Icon } from "@iconify/react";
 
-function ContactSearch() {
+function ContactSearch({ onSearch }: { onSearch: Function }) {
   return (
     <div className="px-5 py-3 flex justify-center items-center gap-3">
       <Input
+        onChange={(e) => onSearch(e.target.value)}
         placeholder="Search"
         icon={
           <Icon

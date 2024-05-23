@@ -3,14 +3,22 @@ import ChatHeader from "./chatHeader";
 import MessageBox from "./messageBox";
 import ChatContainer from "./chatContainer";
 import EmptyChat from "./emptyChat";
+import { useStateProvider } from "@/context/stateContext";
 
 function Chat() {
+  const [{ currentChatUser }] = useStateProvider();
+
   return (
-    <EmptyChat />
-    // <ChatContainer>
-    //   <ChatHeader />
-    //   <MessageBox />
-    // </ChatContainer>
+    <>
+      {!currentChatUser ? (
+        <EmptyChat />
+      ) : (
+        <ChatContainer>
+          <ChatHeader />
+          <MessageBox />
+        </ChatContainer>
+      )}
+    </>
   );
 }
 
